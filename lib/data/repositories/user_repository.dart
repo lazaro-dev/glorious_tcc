@@ -3,9 +3,9 @@ import 'package:glorious_tcc/data/services/db_service.dart';
 import 'package:glorious_tcc/domain/entities/user.dart';
 
 class UserRepository {
-  final DbService _db;
+  final DbService _db = DbService.instance;
 
-  UserRepository(this._db);
+  UserRepository();
 
   Future<List<User>> findAll() async {
     final dtos = await _db.select<UserDTO>(
