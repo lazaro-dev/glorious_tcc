@@ -20,7 +20,7 @@ void main() async {
 
   register();
 
-  await MainSeeder.execute(false);
+  await MainSeeder.execute(resetDatabase: false);
   var db = DbService.instance;
 
   var result = await db.select<UserDTO>(UserDTO.table);

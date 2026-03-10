@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:glorious_tcc/data/repositories/auth_repository.dart';
+import 'package:glorious_tcc/data/repositories/user_repository.dart';
 import 'package:glorious_tcc/data/services/auth_service.dart';
+import 'package:glorious_tcc/data/services/session_service.dart';
+import 'package:glorious_tcc/ui/core/routes/app_routes.dart';
 import 'package:glorious_tcc/ui/core/viewmodels/auth_view_model.dart';
-import 'package:glorious_tcc/ui/core/widgets/welcome_screen.dart';
+import 'package:glorious_tcc/ui/screens/auth/login/login_screen.dart';
+import 'package:glorious_tcc/ui/screens/bank_account/bank_account_screen.dart';
+import 'package:glorious_tcc/ui/screens/home/home_screen.dart';
+import 'package:glorious_tcc/ui/screens/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
-// import 'package:personal_finance_tcc/presenter/pages/account/account_page.dart';
-// import 'package:personal_finance_tcc/presenter/pages/auth/login_page.dart';
-// import 'package:personal_finance_tcc/presenter/pages/home_page.dart';
-// import 'package:personal_finance_tcc/presenter/pages/welcome_page.dart';
 
-// class App extends StatelessWidget {
-//   const App({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -27,9 +21,16 @@ class App extends StatelessWidget {
           Provider<AuthRepository>(
             create: (_) => AuthRepository(),
           ),
+          Provider<UserRepository>(
+            create: (_) => UserRepository(),
+          ),
+          Provider<SessionService>(
+            create: (_) => SessionService(),
+          ),
           Provider<AuthService>(
             create: (context) => AuthService(
-              context.read<AuthRepository>(),
+              context.read<UserRepository>(),
+              context.read<SessionService>(),
             ),
           ),
           Provider<AuthViewModel>(
@@ -48,12 +49,18 @@ class App extends StatelessWidget {
             // brightness: Brightness.dark
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: '/',
+          initialRoute: AppRoutes.welcome,
           routes: {
-            '/': (context) => const WelcomeScreen(),
-            // '/login': (context) => const LoginPage(),
-            // '/home': (context) => const HomePage(),
-            // '/account': (context) => const AccountPage(),
+            AppRoutes.welcome: (context) => WelcomeScreen(
+                  viewModel: context.read<AuthViewModel>(),
+                ),
+            AppRoutes.login: (context) => LoginScreen(
+                  viewModel: context.read<AuthViewModel>(),
+                ),
+            AppRoutes.home: (context) => const HomeScreen(
+                // viewModel: context.read<AuthViewModel>(),
+                ),
+            AppRoutes.bankAccount: (context) => const BankAccountScreen(),
           },
         ));
   }
