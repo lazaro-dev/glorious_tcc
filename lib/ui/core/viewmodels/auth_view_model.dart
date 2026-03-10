@@ -4,7 +4,8 @@ import 'package:glorious_tcc/ui/core/state/state_manager.dart';
 class AuthViewModel {
   final AuthService _authService;
 
-  final StateManager<bool> authState = StateManager(false);
+  final StateManager<LoginState> authState =
+      StateManager(LoginState.unauthenticated);
 
   AuthViewModel(this._authService);
 
@@ -13,7 +14,10 @@ class AuthViewModel {
 
     try {
       final isLogged = await _authService.isLogged();
-      authState.setSuccess(isLogged);
+
+      authState.setSuccess(
+        isLogged ? LoginState.authenticated : LoginState.unauthenticated,
+      );
     } catch (e) {
       authState.setFailure("Erro ao verificar login");
     }
@@ -33,7 +37,7 @@ class AuthViewModel {
         return;
       }
 
-      authState.setSuccess(true);
+      authState.setSuccess(LoginState.authenticated);
     } catch (e) {
       authState.setFailure("Erro ao autenticar");
     }
@@ -41,6 +45,11 @@ class AuthViewModel {
 
   Future<void> logout() async {
     await _authService.logout();
-    authState.setSuccess(false);
+    authState.setSuccess(LoginState.unauthenticated);
   }
+}
+
+enum LoginState {
+  authenticated,
+  unauthenticated,
 }
