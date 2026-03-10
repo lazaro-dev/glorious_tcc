@@ -1,5 +1,6 @@
 import 'package:glorious_tcc/data/models/user_dto.dart';
 import 'package:glorious_tcc/data/services/db_service.dart';
+import 'package:glorious_tcc/data/services/password_hasher.dart';
 
 class UserSeeder {
   static Future<void> execute() async {
@@ -10,7 +11,7 @@ class UserSeeder {
         UserDTO(
           name: 'Carlos',
           email: 'carlos@email.com',
-          password: '123',
+          password: PasswordHasher.hash('123'),
           accountId: 1,
         ));
   }
