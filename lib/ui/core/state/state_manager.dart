@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:glorious_tcc/ui/core/state/change_notifier_state.dart';
 import 'package:glorious_tcc/ui/core/state/view_state.dart';
 
-abstract class StateManager<T> {
+abstract class StateManager<T> implements Listenable{
   T get state;
   ViewState get viewState;
   String? get errorMessage;
