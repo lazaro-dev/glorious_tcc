@@ -39,5 +39,12 @@ class User {
       'accountId': accountId,
     };
   }
-  
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'password': password,
+        'email': email,
+        'accountId': accountId,
+      };
 }
