@@ -9,7 +9,7 @@ import 'package:glorious_tcc/data/database/seeders/user_seeder.dart';
 import 'package:glorious_tcc/data/services/db_service.dart';
 
 class MainSeeder {
-  static Future<void> execute(bool bool, {bool resetDatabase = true}) async {
+  static Future<void> execute({bool resetDatabase = true}) async {
     if (resetDatabase) await DbService.instance.resetDatabase();
 
     // accounts
